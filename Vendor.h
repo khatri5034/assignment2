@@ -1,7 +1,7 @@
 // TO DO: #include all the standard libraries and your own libraries here
 #include <iostream>
 #include <string>
-
+//
 // To DO: define the class Vendor with the necessary functions and data fields
 class Vendor{
   private:

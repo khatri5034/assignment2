@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+//
 // To DO: define the class Product with the necessary functions' prototypes and data fields
 class Product{
   private:
