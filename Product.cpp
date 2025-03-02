@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "Product.h"
+#include "LinkedBagDS/LinkedBag.h"
 //
 
 // TO DO: function implementations
@@ -18,6 +19,19 @@ Product::Product(std::string name, std::string description, int rating, int addC
   Product:: ~Product(){}
 // ------------------------------------------------------------------------------
 // Operator overloading implementation
+  std::string Product:: getName(){
+    return Product::name;}
+  std::string Product:: getDescription(){
+    return Product::description;
+
+  }
+  int Product::getRating(){
+    return Product::rating;
+  }
+  int Product::getAddCount(){
+    return Product::addCount;
+  }
+
 bool Product::operator==(const Product& otherProduct) const {
 	return Product::name == otherProduct.name;
 }

@@ -1,9 +1,12 @@
 #include <iostream> 
 #include <string>
-
+#include "LinkedBagDS/LinkedBag.h"
 // TO DO: #include any other libraries you need
 #include "Amazon340.h"
-
+#include"Vendor.h"
+#include"vector"
+#include"Media.h"
+#include"Product.h"
 
 using namespace std;
 
@@ -33,16 +36,63 @@ void displayVendorMenu(Vendor& vendor){
 		switch (vendorChoice) {
 			case 1:{
 				// TO DO: display vendor's profile information
-				//      : e.g. vendor.displayProfile();
+				 vendor.display();
 				break;
 			}
 			case 2: {
 				// TO DO: ask for new password and update vendor's password
+				vendor.modifyPassword();
 				break;
 			}
 			case 3: {
 				// TO DO: ask vendor to choose product type, then ask them to input product details.
-				// Create the product and add it to the vendor's products
+				int productType;
+				std::cout << "Enter Product type: 1 for Media and 2 for Good: ";
+				std::cin >> productType;
+				std::cin.ignore(); // Ignore leftover newline
+
+				std::string name, description, type, targetAudience;
+				int rating, addCount;
+
+				std::cout << "Enter Product Name: ";
+				std::getline(std::cin, name);
+
+				std::cout << "Enter Product Description: ";
+				std::getline(std::cin, description);
+
+				std::cout << "Enter Product Rating (0-5): ";
+				cin >> rating;
+
+
+
+
+
+				std::cout << "Enter Stock Quantity: ";
+
+				cin >> addCount;
+
+
+
+				if (productType == 1) { // Media Product
+					std::cout << "Enter Media Type: ";
+					std::getline(std::cin, type);
+
+					std::cout << "Enter Target Audience: ";
+					std::getline(std::cin, targetAudience);
+
+					// Create and add Media object
+					Media* newMedia= new Media(name, description, rating, addCount, type, targetAudience);
+					std::cout<<"creeTED"<<std::endl;
+					vendor.addProduct(newMedia);
+					std::cout << "Media product added successfully!\n";
+				}
+				else if (productType == 2) {
+					std::cout << "Goods product creation is not implemented yet!\n";
+				}
+				else {
+					std::cout << "Invalid product type selection.\n";
+				}
+
 				break;
 			}
 			case 4:{
@@ -51,9 +101,13 @@ void displayVendorMenu(Vendor& vendor){
 				break;
 			}
 			case 5: {
+				std::cout<<"Enter the kth product :"<<std::endl;
+				int k;
+				std::cin>>k;
 				// TO DO: ask the vendor for a value k
 				// Find the Kth product, if k > Linked Bag size, 
 				//    return an error message that includes the size of the Linked Bag
+				vendor.displayProduct(k);
 				break;
 			}
 			case 6: {
@@ -102,7 +156,8 @@ int main(){
 
 	// call amazon340 createVendor function 
 	// replace /*...*/ with the right parameters
-	amazon340.createVendor(/*...*/);
+	amazon340.createVendor("kiran", "kiran@gmail", "12344", "hello", ".jjjf.kkf");
+
 
 	// Retrieve the vendor 
 	Vendor currentVendor = amazon340.getVendor();
