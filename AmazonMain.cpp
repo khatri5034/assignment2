@@ -47,55 +47,70 @@ void displayVendorMenu(Vendor& vendor){
 			case 3: {
 				// TO DO: ask vendor to choose product type, then ask them to input product details.
 				int productType;
-				std::cout << "Enter Product type: 1 for Media and 2 for Good: ";
+				std::string name, description, type, targetAudience,expirationDate;
+				int rating, soldCount, quantity;
+
+				std::cout << "Enter Product type: 1 for Media and 2 for Good: "<<std::endl;
 				std::cin >> productType;
-				std::cin.ignore(); // Ignore leftover newline
+				std::cin.ignore();
 
-				std::string name, description, type, targetAudience;
-				int rating, addCount;
-
-				std::cout << "Enter Product Name: ";
+				std::cout << "Enter Product Name: "<<std::endl;
 				std::getline(std::cin, name);
 
-				std::cout << "Enter Product Description: ";
+				std::cout << "Enter Product Description: "<<std::endl;
 				std::getline(std::cin, description);
 
-				std::cout << "Enter Product Rating (0-5): ";
-				cin >> rating;
+				std::cout << "Enter Product Rating (0-5): "<<std::endl;
 
-
-
-
-
-				std::cout << "Enter Stock Quantity: ";
-
-				cin >> addCount;
-
-
-
-				if (productType == 1) { // Media Product
-					std::cout << "Enter Media Type: ";
+				while (true) {
+					if (std::cin >> rating && rating >= 0 && rating <= 5) {
+						break;
+					}
+					else {
+						std::cout << "Please enter a valid rating! (0-5)"<<std::endl;
+					}
+				}
+				std::cin.ignore();
+				if (productType == 1) {
+					std::cout << "Enter Media Type: "<<std::endl;
 					std::getline(std::cin, type);
 
-					std::cout << "Enter Target Audience: ";
+					std::cout << "Enter Target Audience: "<<std::endl;
 					std::getline(std::cin, targetAudience);
+					soldCount=0;
 
-					// Create and add Media object
-					Media* newMedia= new Media(name, description, rating, addCount, type, targetAudience);
-					std::cout<<"creeTED"<<std::endl;
+					Media* newMedia= new Media(name, description, rating, soldCount, type, targetAudience);
+
 					vendor.addProduct(newMedia);
-					std::cout << "Media product added successfully!\n";
+					std::cout << "Media product added successfully!\n"<<std::endl;
 				}
 				else if (productType == 2) {
-					std::cout << "Goods product creation is not implemented yet!\n";
-				}
-				else {
-					std::cout << "Invalid product type selection.\n";
-				}
 
+					std::cout << "Enter Good's expiration date: "<<std::endl;
+					std::getline(std::cin,expirationDate);
+
+					std::cout << "Enter Stock Quantity: "<<std::endl;
+					while (true) {
+						if (cin >> quantity && quantity > 0) {
+							break;
+						}
+						else {
+							std::cout << "Please enter a valid add count!"<<std::endl;
+						}
+					}
+						}
+				else {
+							std::cout << "Invalid product type selection.\n"<<std::endl;
+				}
+				Good* newGood= new Good(name, description, rating, soldCount, , targetAudience);
+
+				vendor.addProduct(newGood);
+				std::cout << "Good product added successfully!\n"<<std::endl;
 				break;
 			}
 			case 4:{
+				std::cout << "Products you have in stock: "<<std::endl;
+				vendor.displayAll();
 				// TO DO: display all vendor's products
 				//        You may re-use code from class demo
 				break;
@@ -119,13 +134,22 @@ void displayVendorMenu(Vendor& vendor){
 				break;
 			}
 			case 7: {
-				// TO DO: ask the vendor for the index of the product they want to sell 
+
+				// TO DO: ask the vendor for the index of the product they want to sell
+				std::cout<<"Enter the product index you want to sell: "<<std::endl;
+				int index;
+				std::cin>>index;
+				vendor.sell(index);
 				// Find the product, then sell the product. 
 				// If index > LinkedBag size, 
 				//    return an error message that includes the size of the Linked Bag
 				break;
 			}
 			case 8:{
+				std::cout<<"Enter the product index you want to delete: "<<std::endl;
+				int index;
+				std::cin>>index;
+				vendor.sell(index);
 				// TO DO: ask the vendor for the index of the product they want to delete 
 				// Find the product, then remove it from the list. 
 				// If index > LinkedBag size, 
@@ -156,7 +180,7 @@ int main(){
 
 	// call amazon340 createVendor function 
 	// replace /*...*/ with the right parameters
-	amazon340.createVendor("kiran", "kiran@gmail", "12344", "hello", ".jjjf.kkf");
+	amazon340.createVendor("kiran", "kiran@gmail", "Kiran5034", "hello", ".jjjf.kkf");
 
 
 	// Retrieve the vendor 

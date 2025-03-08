@@ -3,17 +3,18 @@
 #include <string>
 #include <vector>
 #include "Product.h"
+#include "Vendor.h"
 #include "LinkedBagDS/LinkedBag.h"
 //
 
 // TO DO: function implementations
 Product::Product(){}
 
-Product::Product(std::string name, std::string description, int rating, int addCount){
+Product::Product(std::string name, std::string description, int rating, int soldCount=0){
    Product::name = name;
    Product::description = description;
    Product::rating = rating;
-   Product::addCount = addCount;
+   Product::soldCount = soldCount;
 
 }
   Product:: ~Product(){}
@@ -28,8 +29,8 @@ Product::Product(std::string name, std::string description, int rating, int addC
   int Product::getRating(){
     return Product::rating;
   }
-  int Product::getAddCount(){
-    return Product::addCount;
+  int Product::getSoldCount(){
+    return Product::soldCount;
   }
 
 bool Product::operator==(const Product& otherProduct) const {

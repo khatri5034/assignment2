@@ -19,16 +19,18 @@ class Vendor{
     std::string password;
     std::string bio;
     std::string profilePicture;
-    LinkedBag<Product>* bag;
+    LinkedBag<Product*> bag;
 
   public:
     Vendor();
+  ~Vendor();
     Vendor(const std::string& username, const std::string& email, const std::string& password, const std::string& bio, const std::string& profilePicture);
     std::string getUsername();
     std::string getEmail();
     std::string getPassword();
     std::string getBio();
     std::string getProfilePicture();
+
     void addProduct( Product* product);
     void display();
     bool modifyPassword();
@@ -37,7 +39,7 @@ class Vendor{
     void displayAll();
     bool sellProduct(int k, int quantity);
     bool deleteProduct(int k);
-
+    bool sell(int index);
     bool operator==(const Vendor& otherVendor) const;
 };
 #endif

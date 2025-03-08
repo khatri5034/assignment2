@@ -11,7 +11,42 @@
 
 // Assignment 2 functions -------------------------------------------
 // TO DO: implement the two functions here
+template<class ItemType>
+bool LinkedBag<ItemType>::appendK(const ItemType& newEntry, const int& k) {
+	if (k < 1 || k > itemCount) {
+		return false;
+	}
 
+	Node<ItemType>* newNode = new Node<ItemType>;
+	if (k==1) {
+		newNode->setData(newEntry);
+		newNode->setNext(headPtr);  // New node points to chain
+		headPtr = newNode;			// New node is now first node
+		itemCount++;
+	}
+	Node<ItemType>* curr= headPtr;
+	int index=1;
+	while (index<k-1) {
+		curr=curr->getNext();
+		index++;
+
+	}
+	newNode->setNext=(curr->getNext());
+	curr->setNext(newNode);
+	itemCount++;
+	return true;
+}
+
+template<class ItemType>
+Node<ItemType>* LinkedBag<ItemType>::findKthItem(const int& indexK) const {
+	Node<ItemType>* curr= headPtr;
+	int index=1;
+	while (curr!=nullptr &&index<indexK) {
+		curr=curr->getNext();
+		index++;
+	}
+	return curr;
+}
 // ------------------------------------------------------------------
 
 template<class ItemType>

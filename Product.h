@@ -1,6 +1,7 @@
 // TO DO: #include all the standard libraries and your own libraries here
 #include <iostream>
 #include <string>
+#include"Vendor.h"
 
 #include <vector>
 #ifndef PRODUCT_H_
@@ -12,19 +13,19 @@ class Product{
     std::string name;
     std:: string description;
     int rating;
-    int addCount;
+    int soldCount;
     public:
       Product ();
 
-      Product(std::string name, std::string description, int rating, int addCount);
-      ~Product ();
+      Product(std::string name, std::string description, int rating, int soldCount);
+      virtual ~Product ();
       std::string getName();
       std::string getDescription();
       int getRating();
-      int getAddCount();
-      void display();
-      bool modify();
-      bool sell(int quantity);
+      int getSoldCount();
+      virtual void display()=0;
+      virtual bool modify()=0;
+    virtual bool sell(int index)=0;
       bool operator==(const Product& otherProduct) const;
 
 };
