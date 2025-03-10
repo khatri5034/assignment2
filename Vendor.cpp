@@ -1,124 +1,141 @@
-// TO DO: #include needed standard libraries and your own libraries here
 #include <iostream>
 #include <string>
-#include "LinkedBagDS/LinkedBag.h"
-
-#include"Good.h"
-#include"Media.h"
-#include"Product.h"
 #include "Vendor.h"
+#include "Product.h"
+#include "Good.h"
+#include "Media.h"
 
-// TO DO: function implementations
+using namespace std;
 
-// Operator == overloading implementation
-Vendor::Vendor(){};
-Vendor ::Vendor(const std::string& username, const std::string& email, const std::string& password, const std::string& bio, const std::string& profilePicture){
-    this->username = username;
-   this->email = email;
-    this->password = password;
-    this->bio = bio;
-    this->profilePicture = profilePicture;
+Vendor::Vendor() {}
 
-}
-    Vendor::~Vendor(){
-}
-void Vendor::addProduct( Product* product){
-Vendor::bag.add(product);
-}
-bool Vendor ::operator==(const Vendor& otherVendor) const {
-	return (Vendor::username == otherVendor.username) && (Vendor::email == otherVendor.email);
-}
-std::string Vendor::getUsername() {
-  return Vendor::username;
-}
-std::string Vendor::getEmail(){
-  return Vendor::email;
-}
-std::string Vendor::getBio(){
-  return Vendor::bio;
-}
-std::string Vendor::getProfilePicture(){
-  return Vendor::profilePicture;
-}
-void Vendor::display() {
-  std::cout << "Vendor: " << Vendor::getUsername()<<"\nEmail: "<<email<<"\nBio: "<<bio<<"\nProfile picture: "<<profilePicture<< std::endl;
+Vendor::Vendor(const string& username, const string& email, const string& password, const string& bio, const string& profilePicture)
+    : username(username), email(email), password(password), bio(bio), profilePicture(profilePicture) {}
+
+Vendor::~Vendor() {}
+
+string Vendor::getUsername() const
+{
+    return Vendor::username;
 }
 
-bool Vendor::modifyPassword() {
-  bool modified = false;
-  std::string newPassword;
-  while(true){
-  std::cout<<"Enter the new password: "<<std::endl;
-  std::cin>>newPassword;
-  if(newPassword == Vendor::password||newPassword.length()<8){
-    if(newPassword.length()<8){
-      std::cout<<"Password should be at least 8 or more characters!"<<std::endl;
-    }
-    else{
-    std::cout<<"Please, enter the password different than the old password!"<<std::endl;
+string Vendor::getEmail() const
+{
+    return Vendor::email;
 }
-  }
-  else
+
+string Vendor::getPassword() const
+{
+    return Vendor::password;
+}
+
+string Vendor::getBio() const
+{
+    return Vendor::bio;
+}
+
+string Vendor::getProfilePicture() const
+{
+    return Vendor::profilePicture;
+}
+
+void Vendor::setUsername(const string& username)
+{
+    Vendor::username = username;
+}
+
+void Vendor::setEmail(const string& email)
+{
+    Vendor::email = email;
+}
+
+void Vendor::setPassword(const string& password)
+{
+    Vendor::password = password;
+}
+
+void Vendor::setBio(const string& bio)
+{
+    Vendor::bio = bio;
+}
+
+void Vendor::setProfilePicture(const string& profilePicture)
+{
+    Vendor::profilePicture = profilePicture;
+}
+
+int Vendor::getProductListSize() const
+{
+    return productList.getCurrentSize();
+}
+
+void Vendor::displayProfile() const
+{
+    cout << "Vendor: " << getUsername() << endl << "Email: " << getEmail() << endl
+        << "Bio: " << getBio() << endl << "Profile Picture: " << getProfilePicture() << endl;
+}
+
+bool Vendor::modifyPassword(const string& newPassword)
+{
+    if (getPassword() != newPassword)
     {
-    password=newPassword;
-        modified = true;
-    std::cout<<"Successfuly updated password!"<<std::endl;
-    break;
+        setPassword(newPassword);
+        cout << "Your new password: " << getPassword() << endl;
+        return 1;
     }
-  }
-return modified;
+
+    return 0;
 }
 
-bool Vendor::sell(int index) {
-  std::vector<Product*> products = bag.toVector();
-  if (index < 1 || index > products.size()) {
-        std::cout << "Invalid product index! Please enter a number between 1 and " << products.size() << "." << std::endl;
-        return false;
+bool Vendor::createProduct(Product* product)
+{
+    if (product == nullptr) 
+        return 0;
+
+    productList.add(product);
+    return 1;
+}
+
+void Vendor::displayProductK(const int& k) const
+{
+    productList.findKthItem(k)->getItem()->display();
+}
+
+void Vendor::displayAllProducts() const
+{
+    vector<Product*> products = productList.toVector();
+
+    if (products.empty())
+    {
+        cout << "No products available." << endl;
     }
     else
-      {
-      Product* product = products[index - 1];
-      product->sell(index);
-      delete product;
-    }return true;
-
-}
-
-void Vendor::displayProduct(int k) {
-  std::vector<Product*> products = bag.toVector();
- if (k < 1 || k > products.size()) {
-        std::cout << "Invalid product index. Please enter a number between 1 and "
-                  << products.size() << "." << std::endl;
-        return;
-    }
-    std::cout << "Product " << k << ":" << std::endl;
-    products[k-1]->display();
-}
-
-void Vendor::displayAll(){
-    std::vector<Product*> products = bag.toVector();
-    if (products.empty()) {
-        std::cout << "No products available." << std::endl;
-        return;
-    }
-    for (int i = 0; i < products.size(); ++i) {
-        std::cout << "Product " << (i+1) << ":" << std::endl;
-        products[i]->display();
-        std::cout << std::endl;
+    {
+        for (int i = 0; i < products.size(); i++)
+        {
+            cout << "Product " << (i + 1) << ":" << endl;
+            products[i]->display();
+            cout << endl;
+        }
     }
 }
 
-bool Vendor::deleteProduct(int k) {
-    std::vector<Product*> products = bag.toVector();
-    if (k < 1 || k > products.size()) {
-        std::cout << "Invalid product index. Please enter a number between 1 and "
-                  << products.size() << "." << std::endl;
-        return false;
-    }
-    Product* productToDelete = products[k-1];
-    bag.remove(productToDelete);
-    delete productToDelete;
-    return true;
+bool Vendor::modifyProduct(const int& k, const string& name, const string& description)
+{
+    return productList.findKthItem(k)->getItem()->modify(name, description);
 }
 
+bool Vendor::sellProduct(const int& k, const int& quantity)
+{
+    return productList.findKthItem(k)->getItem()->sell(quantity);
+}
 
+bool Vendor::deleteProduct(const int& k)
+{
+    return productList.remove(productList.findKthItem(k)->getItem());
+}
+
+bool Vendor::operator==(const Vendor& otherVendor) const
+{
+    return (Vendor::username == otherVendor.username) && (Vendor::email == otherVendor.email);
+}
