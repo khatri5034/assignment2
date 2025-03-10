@@ -1,4 +1,4 @@
-#include <iostream> 
+#include <iostream>
 #include <string>
 #include "Amazon340.h"
 #include "Vendor.h"
@@ -55,80 +55,125 @@ void displayVendorMenu(Vendor& vendor)
 				break;
 			}
 			case 3:
+
 			{
-				int productType;
-				string name, description;
+			    int productType;
+			    string name, description;
 
-				cout << "What type of product (1 for Media, 2 for Good, 0 for Return): ";
-				cin >> productType;
-				cin.ignore();
-				cout << endl;
+			    cout << "Enter the type of product (1 for Media, 2 for Good, 0 for Return): ";
+			    cin >> productType;
+			    cin.ignore();
+			    cout << endl;
 
-				switch (productType)
-				{
-					case 1:
-					{
-						string type, targetAudience;
+			    switch (productType)
+			    {
+			        case 1:
+			        {
+			            string type, targetAudience;
 
-						cout << "Enter media name: " << endl;
-						getline(cin, name);
+			            cout << "Enter media name: " << endl;
+			            getline(cin, name);
 
-						cout << "Enter media description: " << endl;
-						getline(cin, description);
+			            cout << "Enter media description: " << endl;
+			            getline(cin, description);
 
-						cout << "Enter media type: " << endl;
-						getline(cin, type);
+			            cout << "Enter media type: " << endl;
+			            getline(cin, type);
 
-						cout << "Enter target audience: " << endl;
-						getline(cin, targetAudience);
+			            cout << "Enter target audience: " << endl;
+			            getline(cin, targetAudience);
 
-						Media* media = new Media(name, description, type, targetAudience);
-						
-						cout << endl;
+			            Media* media = new Media(name, description, type, targetAudience);
 
-						if (vendor.createProduct(media))
-							cout << media->getName() << " has been created successfully." << endl;
-						else
-							cout << "Failed to create media." << endl;
+			            cout << endl;
 
-						break;
-					}
-					case 2:
-					{
-						string expirationDate;
-						int quantity;
+			            int appendChoice;
+			            cout << "Do you want to append at a specific position? (1 for Yes, 0 for No): \n";
+			            cin >> appendChoice;
+			            cin.ignore();
+			            cout << endl;
 
-						cout << "Enter good name: " << endl;
-						getline(cin, name);
+			            if (appendChoice == 1) {
+			                int position;
+			                cout << "Enter position to append (1 to " << vendor.getProductListSize() << "): ";
+			                cin >> position;
+			                cin.ignore();
+			                cout << endl;
 
-						cout << "Enter good description: " << endl;
-						getline(cin, description);
+			                if (vendor.appendK(media, position))
+			                {
+			                    cout << media->getName() << " has been appended successfully at position " << position << "." << endl;
+			                }
+			                else
+			                {
+			                    cout << "Failed to append media at position " << position << "." << endl;
+			                }
+			            }
+			            else {
+			                if (vendor.createProduct(media))
+			                    cout << media->getName() << " has been created successfully." << endl;
+			                else
+			                    cout << "Failed to create media." << endl;
+			            }
+			            break;
+			        }
+			        case 2:
+			        {
+			            string expirationDate;
+			            int quantity;
 
-						cout << "Enter expiration date: " << endl;
-						getline(cin, expirationDate);
+			            cout << "Enter good name: " << endl;
+			            getline(cin, name);
 
-						cout << "Enter quantity: " << endl;
-						cin >> quantity;
-						cin.ignore();
+			            cout << "Enter good description: " << endl;
+			            getline(cin, description);
 
-						Good* good = new Good(name, description, expirationDate, quantity);
+			            cout << "Enter expiration date: " << endl;
+			            getline(cin, expirationDate);
 
-						cout << endl;
+			            cout << "Enter quantity: " << endl;
+			            cin >> quantity;
+			            cin.ignore();
 
-						if (vendor.createProduct(good))
-							cout << good->getName() << " has been created successfully." << endl;
-						else
-							cout << "Failed to create good." << endl;
+			            Good* good = new Good(name, description, expirationDate, quantity);
+			            cout << endl;
 
-						break;
-					}
-					case 0:
-						break;
-					default:
-						cout << "Invalid choice." << endl;
-				}
+			            int appendChoice;
+			            cout << "Do you want to append at a specific position? (1 for Yes, 0 for No): ";
+			            cin >> appendChoice;
+			            cin.ignore();
+			            cout << endl;
 
-				break;
+			            if (appendChoice == 1) {
+			                int position;
+			                cout << "Enter position to append (1 to " << vendor.getProductListSize() << "): ";
+			                cin >> position;
+			                cin.ignore();
+			                cout << endl;
+
+			                if (vendor.appendK(good, position))
+			                {
+			                    cout << good->getName() << " has been appended successfully at position " << position << "." << endl;
+			                }
+			                else
+			                {
+			                    cout << "Failed to append good at position " << position << "." << endl;
+			                }
+			            }
+			            else {
+			                if (vendor.createProduct(good))
+			                    cout << good->getName() << " has been created successfully." << endl;
+			                else
+			                    cout << "Failed to create good." << endl;
+			            }
+			            break;
+			        }
+			        case 0:
+			            break;
+			        default:
+			            cout << "Invalid choice." << endl;
+			    }
+			    break;
 			}
 			case 4:
 			{

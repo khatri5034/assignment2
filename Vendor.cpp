@@ -95,7 +95,14 @@ bool Vendor::createProduct(Product* product)
     productList.add(product);
     return 1;
 }
-
+bool Vendor::appendK(Product* product, const int& k)
+{
+  if (product == nullptr){
+    return 0;
+    }
+  productList.appendK(product, k);
+  return 1;
+}
 void Vendor::displayProductK(const int& k) const
 {
     productList.findKthItem(k)->getItem()->display();

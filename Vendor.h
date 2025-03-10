@@ -37,6 +37,7 @@ class Vendor
 
         void displayProfile() const;
         bool modifyPassword(const std::string& newPassword);
+        bool appendK(Product* product, const int& k);
         bool createProduct(Product* product);
         void displayProductK(const int& k) const;
         void displayAllProducts() const;
