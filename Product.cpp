@@ -1,42 +1,70 @@
-// TO DO: #include all the standard libraries and your own libraries here
 #include <iostream>
 #include <string>
-#include <vector>
 #include "Product.h"
-#include "Vendor.h"
-#include "LinkedBagDS/LinkedBag.h"
-//
 
-// TO DO: function implementations
-Product::Product(){}
+using namespace std;
 
-Product::Product(std::string name, std::string description, int rating, int soldCount=0){
-   Product::name = name;
-   Product::description = description;
-   Product::rating = rating;
-   Product::soldCount = soldCount;
+Product::Product() {}
 
+Product::Product(const string& name, const string& description)
+    : name(name), description(description) {}
+
+Product::~Product() {}
+
+string Product::getName() const
+{
+    return Product::name;
 }
-  Product:: ~Product(){}
-// ------------------------------------------------------------------------------
-// Operator overloading implementation
-  std::string Product:: getName(){
-    return Product::name;}
-  std::string Product:: getDescription(){
+
+string Product::getDescription() const
+{
     return Product::description;
+}
 
-  }
-  int Product::getRating(){
+int Product::getRating() const
+{
     return Product::rating;
-  }
-  int Product::getSoldCount(){
-    return Product::soldCount;
-  }
+}
 
-bool Product::operator==(const Product& otherProduct) const {
+int Product::getSoldCount() const
+{
+    return Product::soldCount;
+}
+
+void Product::setName(const string& name)
+{
+    Product::name = name;
+}
+
+void Product::setDescription(const string& description)
+{
+    Product::description = description;
+}
+
+void Product::setRating(const int& rating)
+{
+    Product::rating = rating;
+}
+
+void Product::setSoldCount(const int& soldCount)
+{
+    Product::soldCount = soldCount;
+}
+
+void Product::sold()
+{
+    Product::soldCount++;
+}
+
+bool Product::modify(const string& name, const string& description)
+{
+    setName(name);
+    setDescription(description);
+
+    return 1;
+}
+
+bool Product::operator==(const Product& otherProduct) const
+{
 	return Product::name == otherProduct.name;
 }
-
-
-
-

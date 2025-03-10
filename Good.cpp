@@ -1,56 +1,57 @@
-//
-// Created by kiran khatri on 3/1/25.
-//
-//
-// Created by kiran khatri on 3/1/25.
-//
-#include"iostream"
-#include"string"
-#include"Good.h"
-#include<regex>
-Good::Good(std::string name, std::string description, int rating, int soldCount,std::string expirationDate, int quantity):Product(name,description,rating,soldCount=0),expirationDate(expirationDate),quantity(quantity){
-}
-Good::~Good(){};
-std::string Good::getExpirationDate(){
+#include <iostream>
+#include <string>
+#include "Good.h"
+
+using namespace std;
+
+Good::Good() {}
+
+Good::Good(const string& name, const string& description, 
+    const string& expirationDate, const int& quantity)
+    : Product(name, description), expirationDate(expirationDate), quantity(quantity) {}
+
+Good::~Good() {}
+
+string Good::getExpirationDate() const
+{
     return Good::expirationDate;
 }
-int Good::getQuantity(){
+
+int Good::getQuantity() const
+{
     return Good::quantity;
 }
 
-void Good::display(){
-    std::cout << "Name: " << getName() << std::endl;
-    std::cout << "Description: " << getDescription() << std::endl;
-    std::cout << "Rating: " << getRating() << std::endl;
-    std::cout << "Stock: " << getSoldCount() << std::endl;
-    std::cout << "expiration date: " << getExpirationDate() << std::endl;
-    std::cout << "quantity: " << getQuantity() << std::endl;
-}
-bool Good::sell(int index){
-    if (index < 1) {
-        std::cout << "Invalid product index. Please enter a valid number." << std::endl;
-        return false;
-    }
-    else{
-          if(Good::quantity == 0) {
-            std::cout << "Out of stock!" << std::endl;
-            return false;
-          }
-          else  {
-            soldCount++;
-            quantity -= soldCount;
-            std::cout << soldCount << " item(s) sold! Remaining stock: " << quantity << std::endl;
-            return true;
-          }
-    }
-    return false;
-}
-bool Media::modify(){
-    std::cout << "Please, enter the new description: ";
-    std::getline(std::cin, description);
-
-    std::cout << "Please, enter the new rating: ";
-    std::cin >> rating;
-    return true;
+void Good::setExpirationDate(const string& date)
+{
+    Good::expirationDate = date;
 }
 
+void Good::setQuantity(const int& quantity)
+{
+    Good::quantity = quantity;
+}
+
+void Good::display() const
+{
+    cout << "Name: " << getName() << endl
+        << "Description: " << getDescription() << endl
+        << "Rating: " << getRating() << endl
+        << "Sold Count: " << getSoldCount() << endl
+        << "Expiration date: " << getExpirationDate() << endl
+        << "Quantity: " << getQuantity() << endl;
+}
+
+bool Good::sell(const int& quantity)
+{
+    int currAmount = getQuantity();
+
+    if (quantity >= 1 && quantity <= currAmount)
+    {
+        setQuantity(currAmount - quantity);
+        sold();
+        return 1;
+    }
+
+    return 0;
+}

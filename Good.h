@@ -1,30 +1,28 @@
-//
-// Created by kiran khatri on 3/1/25.
-//
-
 #ifndef GOOD_H
 #define GOOD_H
 
-#include"string"
-#include"vector"
-#include"Product.h"
-class Good:public Product {
+#include <string>
+#include "Product.h"
 
-private:
-    std::string expirationDate;
-    int quantity;
-public:
-    Good();
-    ~Good() ;
-    Good(std::string name, std::string description, int rating, int addCount, std::string expirationDate,int quantity);
-    void display() ;
-    std::string getExpirationDate();
-    int getQuantity();
-    bool sell(int quantity);
-    bool modify() ;
-    bool operator==(const Good& otherMedia) const;
+class Good : public Product
+{
+    private:
+        std::string expirationDate;
+        int quantity;
 
+    public:
+        Good();
+        Good(const std::string& name, const std::string& description, 
+            const std::string& expirationDate, const int& quantity);
+        virtual ~Good();
+
+        std::string getExpirationDate() const;
+        int getQuantity() const;
+        void setExpirationDate(const std::string& date);
+        void setQuantity(const int& quantity);
+
+        void display() const;
+        bool sell(const int& quantity);
 };
-
 
 #endif //GOOD_H

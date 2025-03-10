@@ -1,12 +1,7 @@
 #include <iostream> 
 #include <string>
-#include "LinkedBagDS/LinkedBag.h"
-// TO DO: #include any other libraries you need
 #include "Amazon340.h"
-#include"Vendor.h"
-#include"vector"
-#include"Media.h"
-#include"Product.h"
+#include "Vendor.h"
 
 using namespace std;
 
@@ -17,143 +12,228 @@ using namespace std;
  * @param vendor object to interact with
  * 
  * */
-void displayVendorMenu(Vendor& vendor){
+void displayVendorMenu(Vendor& vendor)
+{
 	int vendorChoice = 0;
-	do {
-		cout << "\n Hi, "<< vendor.getUsername() <<", what would you like to do:\n"
-		<< "1. Display Profile\n"
-		<< "2. Modify Password\n"
-		<< "3. Create Product\n"
-		<< "4. Display All Products\n"
-		<< "5. Display Kth Product\n"
-		<< "6. Modify Product\n"
-		<< "7. Sell Product\n"
-		<< "8. Delete Product\n"
-		<< "0. Logout\n"
-		<< "Choice: ";
+
+	do
+	{
+		cout << endl << "Hi, " << vendor.getUsername() << ", what would you like to do:\n"
+			<< "1. Display Profile\n"
+			<< "2. Modify Password\n"
+			<< "3. Create Product\n"
+			<< "4. Display All Products\n"
+			<< "5. Display Kth Product\n"
+			<< "6. Modify Product\n"
+			<< "7. Sell Product\n"
+			<< "8. Delete Product\n"
+			<< "0. Logout\n"
+			<< "Choice: ";
 		cin >> vendorChoice;
+		cin.ignore();
+		cout << endl;
 
-		switch (vendorChoice) {
-			case 1:{
-				// TO DO: display vendor's profile information
-				 vendor.display();
+		switch (vendorChoice)
+		{
+			case 1:
+			{
+				vendor.displayProfile();
 				break;
 			}
-			case 2: {
-				// TO DO: ask for new password and update vendor's password
-				vendor.modifyPassword();
+			case 2:
+			{
+				string password;
+
+				cout << "Enter new password: " << endl;
+				getline(cin, password);
+
+				if (vendor.modifyPassword(password))
+					cout << "Your password has been modified successfully." << endl;
+				else
+					cout << "Your new password cannot be same as old password." << endl;
+
 				break;
 			}
-			case 3: {
-				// TO DO: ask vendor to choose product type, then ask them to input product details.
+			case 3:
+			{
 				int productType;
-				std::string name, description, type, targetAudience,expirationDate;
-				int rating, soldCount, quantity;
+				string name, description;
 
-				std::cout << "Enter Product type: 1 for Media and 2 for Good: "<<std::endl;
-				std::cin >> productType;
-				std::cin.ignore();
+				cout << "What type of product (1 for Media, 2 for Good, 0 for Return): ";
+				cin >> productType;
+				cin.ignore();
+				cout << endl;
 
-				std::cout << "Enter Product Name: "<<std::endl;
-				std::getline(std::cin, name);
+				switch (productType)
+				{
+					case 1:
+					{
+						string type, targetAudience;
 
-				std::cout << "Enter Product Description: "<<std::endl;
-				std::getline(std::cin, description);
+						cout << "Enter media name: " << endl;
+						getline(cin, name);
 
-				std::cout << "Enter Product Rating (0-5): "<<std::endl;
+						cout << "Enter media description: " << endl;
+						getline(cin, description);
 
-				while (true) {
-					if (std::cin >> rating && rating >= 0 && rating <= 5) {
+						cout << "Enter media type: " << endl;
+						getline(cin, type);
+
+						cout << "Enter target audience: " << endl;
+						getline(cin, targetAudience);
+
+						Media* media = new Media(name, description, type, targetAudience);
+						
+						cout << endl;
+
+						if (vendor.createProduct(media))
+							cout << media->getName() << " has been created successfully." << endl;
+						else
+							cout << "Failed to create media." << endl;
+
 						break;
 					}
-					else {
-						std::cout << "Please enter a valid rating! (0-5)"<<std::endl;
+					case 2:
+					{
+						string expirationDate;
+						int quantity;
+
+						cout << "Enter good name: " << endl;
+						getline(cin, name);
+
+						cout << "Enter good description: " << endl;
+						getline(cin, description);
+
+						cout << "Enter expiration date: " << endl;
+						getline(cin, expirationDate);
+
+						cout << "Enter quantity: " << endl;
+						cin >> quantity;
+						cin.ignore();
+
+						Good* good = new Good(name, description, expirationDate, quantity);
+
+						cout << endl;
+
+						if (vendor.createProduct(good))
+							cout << good->getName() << " has been created successfully." << endl;
+						else
+							cout << "Failed to create good." << endl;
+
+						break;
 					}
+					case 0:
+						break;
+					default:
+						cout << "Invalid choice." << endl;
 				}
-				std::cin.ignore();
-				if (productType == 1) {
-					std::cout << "Enter Media Type: "<<std::endl;
-					std::getline(std::cin, type);
 
-					std::cout << "Enter Target Audience: "<<std::endl;
-					std::getline(std::cin, targetAudience);
-					soldCount=0;
+				break;
+			}
+			case 4:
+			{
+				cout << "Product List: " << endl;
+				vendor.displayAllProducts();
 
-					Media* newMedia= new Media(name, description, rating, soldCount, type, targetAudience);
+				break;
+			}
+			case 5:
+			{
+				int k, size = vendor.getProductListSize();
 
-					vendor.addProduct(newMedia);
-					std::cout << "Media product added successfully!\n"<<std::endl;
+				cout << "Enter the value K: ";
+				cin >> k;
+				cin.ignore();
+
+				cout << endl;
+
+				if (k < 1 || k > size)
+					cout << "Value entered must be between 1 and the product list size." << endl
+						<< "Product list size: " << size << endl;
+				else
+					vendor.displayProductK(size - k);
+
+				break;
+			}
+			case 6:
+			{
+				int k, size = vendor.getProductListSize();
+
+				cout << "Enter the product index to modify: ";
+				cin >> k;
+				cin.ignore();
+
+				if (k < 1 || k > size)
+					cout << "Value entered must be between 1 and the product list size." << endl
+					<< "Product list size: " << size << endl;
+				else
+				{
+					string name, description;
+
+					cout << "Enter new name: " << endl;
+					getline(cin, name);
+
+					cout << "Enter new description: " << endl;
+					getline(cin, description);
+
+					cout << endl;
+
+					if (vendor.modifyProduct(k, name, description))
+						cout << "Product has been modified." << endl;
+					else
+						cout << "Failed to modify product." << endl;
 				}
-				else if (productType == 2) {
 
-					std::cout << "Enter Good's expiration date: "<<std::endl;
-					std::getline(std::cin,expirationDate);
+				break;
+			}
+			case 7:
+			{
+				int k, size = vendor.getProductListSize();
 
-					std::cout << "Enter Stock Quantity: "<<std::endl;
-					while (true) {
-						if (cin >> quantity && quantity > 0) {
-							break;
-						}
-						else {
-							std::cout << "Please enter a valid add count!"<<std::endl;
-						}
-					}
-						}
-				else {
-							std::cout << "Invalid product type selection.\n"<<std::endl;
+				cout << "Enter the product index to sell: ";
+				cin >> k;
+				cin.ignore();
+
+				if (k < 1 || k > size)
+					cout << "Value entered must be between 1 and the product list size." << endl
+					<< "Product list size: " << size << endl;
+				else
+				{
+					int quantity;
+
+					cout << "Enter the quantity to sell: ";
+					cin >> quantity;
+					cin.ignore();
+
+					cout << endl;
+
+					if (vendor.sellProduct(k, quantity))
+						cout << "Product has been sold." << endl;
+					else
+						cout << "The product is sold-out." << endl;
 				}
-				Good* newGood= new Good(name, description, rating, soldCount, , targetAudience);
 
-				vendor.addProduct(newGood);
-				std::cout << "Good product added successfully!\n"<<std::endl;
 				break;
 			}
-			case 4:{
-				std::cout << "Products you have in stock: "<<std::endl;
-				vendor.displayAll();
-				// TO DO: display all vendor's products
-				//        You may re-use code from class demo
-				break;
-			}
-			case 5: {
-				std::cout<<"Enter the kth product :"<<std::endl;
-				int k;
-				std::cin>>k;
-				// TO DO: ask the vendor for a value k
-				// Find the Kth product, if k > Linked Bag size, 
-				//    return an error message that includes the size of the Linked Bag
-				vendor.displayProduct(k);
-				break;
-			}
-			case 6: {
-				// TO DO: ask the vendor for the index of the product they want to modify.
-				// Find the product, then prompt them for the new name and description.
-				// Modify the product accordingly. 
-				// If index > Linked Bag size, 
-				//    return an error message that includes the size of the Linked Bag
-				break;
-			}
-			case 7: {
+			case 8:
+			{
+				int k, size = vendor.getProductListSize();
 
-				// TO DO: ask the vendor for the index of the product they want to sell
-				std::cout<<"Enter the product index you want to sell: "<<std::endl;
-				int index;
-				std::cin>>index;
-				vendor.sell(index);
-				// Find the product, then sell the product. 
-				// If index > LinkedBag size, 
-				//    return an error message that includes the size of the Linked Bag
-				break;
-			}
-			case 8:{
-				std::cout<<"Enter the product index you want to delete: "<<std::endl;
-				int index;
-				std::cin>>index;
-				vendor.sell(index);
-				// TO DO: ask the vendor for the index of the product they want to delete 
-				// Find the product, then remove it from the list. 
-				// If index > LinkedBag size, 
-				//    return an error message that includes the size of the Linked Bag
+				cout << "Enter the product index to delete: ";
+				cin >> k;
+				cin.ignore();
+
+				cout << endl;
+
+				if (k < 1 || k > size)
+					cout << "Value entered must be between 1 and the product list size." << endl
+					<< "Product list size: " << size << endl;
+				else
+					if (vendor.deleteProduct(k))
+						cout << "Product has been deleted." << endl;
+					else
+						cout << "Failed to delete product." << endl;
+
 				break;
 			}
 			case 0: {
@@ -168,26 +248,32 @@ void displayVendorMenu(Vendor& vendor){
 }
 
 
-int main(){
-	// Instantiating the program using the default constructor
-	// With this implementation, the application will only have one vendor
-	Amazon340 amazon340; 
+int main()
+{
+	Amazon340 amazon340;
+	string username, email, password, bio, profilePicture;
 
-	cout << "\n Welcome to Amazon340:" << endl;
-	// TO DO: Ask the vendor to enter their information 
-	//        Instantiate a new Vendor object
+	cout << "Welcome to Amazon340:" << endl;
 
+	cout << "Enter your username: " << endl;; //prompt to enter vendor information
+	getline(cin, username);
+	
+	cout << "Enter your email: " << endl;;
+	getline(cin, email);
 
-	// call amazon340 createVendor function 
-	// replace /*...*/ with the right parameters
-	amazon340.createVendor("kiran", "kiran@gmail", "Kiran5034", "hello", ".jjjf.kkf");
+	cout << "Enter your password: " << endl;;
+	getline(cin, password);
 
+	cout << "Enter your bio: " << endl;;
+	getline(cin, bio);
 
-	// Retrieve the vendor 
-	Vendor currentVendor = amazon340.getVendor();
+	cout << "Enter your profile picture path: " << endl;;
+	getline(cin, profilePicture);
 
-	// Display the main menu
-	displayVendorMenu(currentVendor);
+	amazon340.createVendor(username, email, password, bio, profilePicture); //create vendor
+	Vendor currentVendor = amazon340.getVendor(); //retrieve vendor
+
+	displayVendorMenu(currentVendor); //display main menu
 				
 	return 0;
 }
