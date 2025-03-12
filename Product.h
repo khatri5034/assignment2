@@ -6,17 +6,17 @@
 class Product
 {
     protected:
-        std::string name;
-        std::string description;
-        int rating = 0;
-        int soldCount = 0;
+        std::string name; //store product name
+        std::string description; //store product description
+        int rating = 0; //store product rating
+        int soldCount = 0; //store product sold count
 
     public:
-        Product();
-        Product(const std::string& name, const std::string& description);
-        virtual ~Product();
+        Product(); //default constructor
+        Product(const std::string& name, const std::string& description); //constructor with param
+        virtual ~Product(); //destructor
 
-        std::string getName() const;
+        std::string getName() const; //getters and setters
         std::string getDescription() const;
         int getRating() const;
         int getSoldCount() const;
@@ -25,13 +25,33 @@ class Product
         void setRating(const int& rating);
         void setSoldCount(const int& soldCount);
 
-        void sold();
-
+        /** modify sold count when selling product
+        * @param quantity - quantity being sold
+        * @post sold count increase by the quantity entered
+        **/
+        void sold(const int& quantity = 1);
+        
+        
+        /** display product info **/
         virtual void display() const = 0;
+        /** modify product name and description
+        * @param name - new product name
+        * @param description - new product description
+        * @post change the product name and description to new one
+        * @return true if modify success, or false otherwise
+        **/
         bool modify(const std::string& name, const std::string& description);
+        /** sell product
+        * @param quantity - quantity being sold
+        * @return true if sell success, or false otherwise
+        **/
         virtual bool sell(const int& quantity) = 0;
 
+        /** compare products based on their names
+        * @param otherProduct - another product being compared
+        * @return true if having same name, or false otherwise
+        **/
         bool operator==(const Product& otherProduct) const;
 };
 
-#endif
+#endif //PRODUCT_H

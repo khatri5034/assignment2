@@ -12,15 +12,16 @@
 // Assignment 2 functions -------------------------------------------
 // TO DO: implement the two functions here
 template<class ItemType>
-bool LinkedBag<ItemType>::appendK(const ItemType& newEntry, const int& k) {
-	if (k < 1 || k > itemCount) {
+bool LinkedBag<ItemType>::appendK(const ItemType& newEntry, const int& k) //append to kth position in the bag
+{
+	if (k < 1 || k > itemCount)
 		return false;
-	}
 
 	Node<ItemType>* newNode = new Node<ItemType>;
 	newNode->setItem(newEntry);
 
-	if (k==1) {
+	if (k == 1)
+	{
 		newNode->setNext(headPtr);
 		headPtr = newNode;
 		itemCount++;
@@ -29,7 +30,8 @@ bool LinkedBag<ItemType>::appendK(const ItemType& newEntry, const int& k) {
 
 	Node<ItemType>* curr = headPtr;
 	int index = 1;
-	while (index < k-1) {
+	while (index < k - 1)
+	{
 		curr = curr->getNext();
 		index++;
 	}
@@ -39,18 +41,22 @@ bool LinkedBag<ItemType>::appendK(const ItemType& newEntry, const int& k) {
 	itemCount++;
 	return true;
 }
-template<class ItemType>
-Node<ItemType>* LinkedBag<ItemType>::findKthItem(const int& indexK) const {
-	Node<ItemType>* curr= headPtr;
-    Node<ItemType>* kthItem=headPtr;
-	for (int i = 0; i < indexK; i++) {
-          curr=curr->getNext();
-	}
-	while (curr->getNext()!=nullptr ) {   // when curr reach the end , kth item will exactly at the kth position from the end
-		curr=curr->getNext();
-        kthItem=kthItem->getNext();
 
+template<class ItemType>
+Node<ItemType>* LinkedBag<ItemType>::findKthItem(const int& indexK) const //find kth item in the bag
+{
+	Node<ItemType>* curr = headPtr;
+	Node<ItemType>* kthItem = headPtr;
+
+	for (int i = 0; i < indexK; i++)
+          curr = curr->getNext();
+
+	while (curr->getNext() != nullptr) //when curr reach the end , kth item will exactly at the kth position from the end
+	{   
+		curr = curr->getNext();
+        kthItem = kthItem->getNext();
 	}
+
 	return kthItem;
 }
 // ------------------------------------------------------------------

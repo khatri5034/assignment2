@@ -6,37 +6,37 @@
 
 using namespace std;
 
-Media::Media() {}
+Media::Media() {} //default constructor
 
 Media::Media(const string& name, const string& description, 
     const string& type, const string& targetAudience)
     : Product(name, description), type(type), targetAudience(targetAudience) {}
 
-Media::~Media() {}
+Media::~Media() {} //destructor
 
-string Media::getType() const
+string Media::getType() const //type getter
 {
     return Media::type;
 }
 
-string Media::getTargetAudience() const
+string Media::getTargetAudience() const //target audience getter
 {
     return Media::targetAudience;
 }
 
-void Media::setType(const std::string& type)
+void Media::setType(const std::string& type) //type setter
 {
     Media::type = type;
 }
 
-void Media::setTargetAudience(const std::string& targetAudience)
+void Media::setTargetAudience(const std::string& targetAudience) //target audience setter
 {
     Media::targetAudience = targetAudience;
 }
 
-void Media::display() const
+void Media::display() const //display media info
 {
-    cout << "Name: " << getName() << endl
+    cout << "Name: " << getName() << endl //print media info
         << "Description: " << getDescription() << endl
         << "Rating: " << getRating() << endl
         << "Sold Count: " << getSoldCount() << endl
@@ -44,14 +44,14 @@ void Media::display() const
         << "Target Audience: " << getTargetAudience() << endl;
 }
 
-bool Media::sell(const int& quantity)
+bool Media::sell(const int& quantity) //sell media
 {
-    srand(time(0));
+    srand(time(0)); //random seed
 
     cout << "Media sold successfully!" << endl
-        << "One-time access code: " << 100000 + rand() % 900000 << endl;
+        << "One-time access code: " << 100000 + rand() % 900000 << endl; //output random one-time access code
 
-    sold();
+    sold(); //increase sell count
 
     return 1;
 }
